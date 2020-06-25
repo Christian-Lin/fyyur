@@ -13,5 +13,5 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False # Turn off warning
             # $ flask db stamp head
             # $ flask db migrate
             # $ flask db upgrade
-# TODO IMPLEMENT DATABASE URL
+# TODO(DONE) IMPLEMENT DATABASE URL
 SQLALCHEMY_DATABASE_URI = 'postgres://chris:admin@localhost:5432/fyyur'
