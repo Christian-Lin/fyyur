@@ -1,7 +1,19 @@
 from datetime import datetime
 from flask_wtf import FlaskForm # Removed FlaskWTFDeprecationWarning by updating Form to FlaskForm
-from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField
+from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField, ValidationError
 from wtforms.validators import DataRequired, AnyOf, URL, Optional
+
+def validate_phone(form, field):
+    if len(field.data) > 16:
+        raise ValidationError('Invalid phone number.')
+    try:
+        input_number = phonenumbers.parse(field.data)
+        if not (phonenumbers.is_valid_number(input_number)):
+            raise ValidationError('Invalid phone number.')
+    except:
+        input_number = phonenumbers.parse("+1"+field.data)
+        if not (phonenumbers.is_valid_number(input_number)):
+            raise ValidationError('Invalid phone number.')
 
 class ShowForm(FlaskForm):
     artist_id = StringField(
@@ -83,7 +95,7 @@ class VenueForm(FlaskForm):
         'address', validators=[DataRequired()]
     )
     phone = StringField(
-        'phone', validators=[Optional()]
+        'phone', validators=[DataRequired(), validate_phone]
     )
     image_link = StringField(
         'image_link', validators=[Optional(), URL()]
@@ -190,8 +202,8 @@ class ArtistForm(FlaskForm):
         ]
     )
     phone = StringField(
-        # TODO(DONE IN APP) implement validation logic for state
-        'phone', validators=[DataRequired()]
+        # TODO(DONE) implement validation logic for state
+        'phone', validators=[DataRequired(), validate_phone]
     )
     image_link = StringField(
         'image_link', validators=[Optional(), URL()]
