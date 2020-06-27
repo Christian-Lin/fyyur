@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_wtf import FlaskForm # Removed FlaskWTFDeprecationWarning by updating Form to FlaskForm
-from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField, ValidationError
-from wtforms.validators import DataRequired, AnyOf, URL, Optional
+from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField
+from wtforms.validators import DataRequired, AnyOf, URL, Optional, ValidationError
 
 def validate_phone(form, field):
     if len(field.data) > 16:
